@@ -2225,9 +2225,7 @@ $formattedDate = date('Y-m-d', strtotime($dateString));
                             <h1 class="selectGroup_titleChange" style="margin-right:8px;"><?php echo $sessionMessage?>
                             </h1>
                             <h2 class="centered-heading">
-                                <span class="circle-custom" style="
-                                  display:inline-block; width:6px; height:6px; border-radius:50%;
-                                  background:#cbd5e1; margin-right:6px;">
+                                <span class="circle-custom">
                                 </span>
                                 Upcoming classes
                             </h2>
@@ -2248,66 +2246,110 @@ $formattedDate = date('Y-m-d', strtotime($dateString));
 
                     <div class="row02">
                         <div class="row02_leftSide">
-                            <div class="imageContainer">
-                                <?php if (trim($customTitle) === 'Quick Talk with Peers'): ?>
-                                <!-- ✅ Show image from same folder -->
-                                <img src="quicktalk.jpeg" alt="Quick Talk" style="
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 4px;
-        ">
-                                <?php elseif(trim(str_contains($customTitle, 'Weekly English with'))):?>
-                                <img src="<?php echo $badgeTextx ?>" alt="Quick Talk" style="
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 4px;
-        ">
-                                <?php else: ?>
-                                <!-- ✅ Default colored box with badge -->
-                                <div class="selectGroup_changeImage" style="
-            width: 100%;
-            height: 100%;
-            background-color: <?php echo htmlspecialchars($cohortcolorx ?? '#888'); ?>;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        ">
-                                    <span style="
-                display: flex;
-                width: 100%;
-                height: 100%;
-                color: #fff;
-                font-weight: bold;
-                font-size: 130%;
-                line-height: 1;
-                text-transform: uppercase;
-                text-align: center;
-                align-items: center;
-                justify-content: center;
-            ">
-                                        <?php echo htmlspecialchars($badgeTextx); ?>
-                                    </span>
+                            <div class="row02_leftSide_01">
+                                <div class="imageContainer">
+                                    <?php if (trim($customTitle) === 'Quick Talk with Peers'): ?>
+                                    <!-- ✅ Show image from same folder -->
+                                    <img src="quicktalk.jpeg" alt="Quick Talk" style="
+                                            width: 100%;
+                                            height: 100%;
+                                            object-fit: cover;
+                                            border-radius: 4px;
+                                        ">
+                                    <?php elseif(trim(str_contains($customTitle, 'Weekly English with'))):?>
+                                    <img src="<?php echo $badgeTextx ?>" alt="Quick Talk" style="
+                                            width: 100%;
+                                            height: 100%;
+                                            object-fit: cover;
+                                            border-radius: 4px;
+                                        ">
+                                    <?php else: ?>
+                                    <!-- ✅ Default colored box with badge -->
+                                    <div class="selectGroup_changeImage" style="
+                                            width: 100%;
+                                            height: 100%;
+                                            background-color: <?php echo htmlspecialchars($cohortcolorx ?? '#888'); ?>;
+                                            border-radius: 4px;
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                        ">
+                                        <span style="
+                                                display: flex;
+                                                width: 100%;
+                                                height: 100%;
+                                                color: #fff;
+                                                font-weight: bold;
+                                                font-size: 130%;
+                                                line-height: 1;
+                                                text-transform: uppercase;
+                                                text-align: center;
+                                                align-items: center;
+                                                justify-content: center;
+                                            ">
+                                            <?php echo htmlspecialchars($badgeTextx); ?>
+                                        </span>
+                                    </div>
+                                    <?php endif; ?>
                                 </div>
-                                <?php endif; ?>
+                                <div class="col02 selectGroup_changeContent">
+                                    <h5><?php echo $savedDate?></h5>
+                                    <h1><?php echo $meetingSchedule?></h1>
+                                    <p><?php echo $customTitle; ?></p>
+                                </div>
                             </div>
-                            <div class="col02 selectGroup_changeContent">
-                                <h5><?php echo $savedDate?></h5>
-                                <h1><?php echo $meetingSchedule?></h1>
-                                <p><?php echo $customTitle; ?></p>
-                            </div>
-                            <div class="threeDots userOptionOpen">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path fill-rule="evenodd" clip-rule="evenodd"
-                                        d="M3 10H7V14H3V10ZM10 10H14V14H10V10ZM21 10H17V14H21V10Z" fill="#121117" />
-                                </svg>
+                            <div class="row02_leftSide_02">
+                                <div class="threeDots userOptionOpen">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" clip-rule="evenodd"
+                                            d="M3 10H7V14H3V10ZM10 10H14V14H10V10ZM21 10H17V14H21V10Z" fill="#121117" />
+                                    </svg>
+                                </div>
+                                <div class="row02_rightSide mobile-row02_rightSide">
+                                    <?php if ($currently_running === 1): ?>
+                                    <button class="joinLesson" style="white-space: nowrap;"
+                                        onclick='joinClass(<?php echo json_encode($googleMeetURL, JSON_HEX_TAG|JSON_HEX_APOS|JSON_HEX_AMP|JSON_HEX_QUOT); ?>)'>
+                                        Join Lesson
+                                    </button>
+                                    <?php else: ?>
+                                    <?php if ($now < $unixStart): ?>
+                                    <?php
+                                            $diff = max(0, $unixStart - $now); // seconds until start
+                                
+                                            if ($diff >= 3600) {
+                                                $h = ceil($diff / 3600);
+                                                $timeLeft = $h . ' hour' . ($h === 1 ? '' : 's');
+                                            } else {
+                                                $m = ceil($diff / 60);
+                                                $timeLeft = $m . ' minute' . ($m === 1 ? '' : 's');
+                                            }
+                                            //$googleMeetURL = 'https://meet.google.com/mnm-txoc-wcd';
+                                        ?>
+                                    <button class="joinLesson" style="background:#ccc; 
+                                                   color:#666; 
+                                                   cursor:not-allowed; 
+                                                   border:1px solid #555; 
+                                                   border-radius:6px;
+                                                    white-space: nowrap;" disabled>
+                                        Join in <?php echo htmlspecialchars($timeLeft, ENT_QUOTES, 'UTF-8'); ?>
+                                    </button>
+                                    <?php else: ?>
+                                    <button class="joinLesson" style="background:#ccc; 
+                                                   color:#666; 
+                                                   cursor:not-allowed; 
+                                                   border:1px solid #555; 
+                                                   border-radius:6px;
+                                                   white-space: nowrap;" disabled>
+                                        Meeting ended
+                                    </button>
+                                    <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row02_rightSide">
+                        <div class="row02_rightSide desktop">
 
 
 
@@ -2469,7 +2511,14 @@ $formattedDate = date('Y-m-d', strtotime($dateString));
                 ?>
                 <div class="leftSide">
                     <div class="leftside-content">
-                        <h1 class="heading" style="margin: 0;">My group Classes</h1>
+                        <div class="leftside-content_01">
+                            <h1 class="heading" style="margin: 0;">My group Classes</h1>
+                            <h2 class="centered-heading">
+                                <span class="circle-custom">
+                                </span>
+                                Group Florida 1 Information
+                            </h2>
+                        </div>
                         <div href="" class="note_open group-classes-options-modal-open">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none">
@@ -2650,13 +2699,13 @@ $formattedDate = date('Y-m-d', strtotime($dateString));
        onclick="redirectToActivities(${respCohortId}, ${courseId})"
        class="card">
                         <p>
-                        <span class="desktop">${escapeHTML(dueText)}</span>
-                        <span class="mobile">${escapeHTML(dueText)}</span>
+                        <span class="">${escapeHTML(dueText)}</span>
+                        <span class="">${escapeHTML(dueText)}</span>
                         </p>
                         <h2>
                         <span
-                            ><span class="desktop">${escapeHTML(actName)}</span>
-                            <span class="mobile">${escapeHTML(actName)}</span></span
+                            ><span class="">${escapeHTML(actName)}</span>
+                            <span class="">${escapeHTML(actName)}</span></span
                         >
                         </h2>
                     </div>
@@ -3394,29 +3443,29 @@ $soonest = $matched[0] ?? null;
                 {
                 ?>
                         <a href="<?php echo $topic_url;?>" class="card">
-                            <p><span class="desktop">Current</span> Topic</p>
+                            <p><span class="">Current</span> Topic</p>
                             <h2>
-                                <span class="desktop"><?php echo $sectionname;?></span>
-                                <span class="mobile">Adverb</span>
+                                <span class=""><?php echo $sectionname;?></span>
+                                <span class="">Adverb</span>
                             </h2>
                         </a>
                         <div id="activities-card" style="cursor:pointer"
                             onclick="redirectToActivities(<?php echo $cohortid; ?>, 10)" class="card">
                             <p>
-                                <span class="desktop">
+                                <span class="">
                                     <?php echo !empty($soonest->due_display) ? $soonest->due_display : 'No upcoming tasks'; ?>
                                 </span>
-                                <span class="mobile">
+                                <span class="">
                                     <?php echo !empty($soonest->due_display) ? $soonest->due_display : 'No upcoming tasks'; ?>
                                 </span>
                             </p>
 
                             <h2>
                                 <span>
-                                    <span class="desktop">
+                                    <span class="">
                                         <?php echo !empty($soonest->name) ? $soonest->name : '—'; ?>
                                     </span>
-                                    <span class="mobile">
+                                    <span class="">
                                         <?php echo !empty($soonest->name) ? $soonest->name : '—'; ?>
                                     </span>
                                 </span>
@@ -4237,7 +4286,7 @@ $soonest = $matched[0] ?? null;
                         </div>
                     </div>
                     <div class="row_03">
-                        <a href="" class="btn">Subscribe</a>
+                        <a href="" class="btn subscribe subscribe-modal-open">Subscribe</a>
                         <!-- <div class="options">
                 <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -4364,7 +4413,7 @@ $soonest = $matched[0] ?? null;
                 <div class="card">
                     <div class="card-top">
                         <div class="tag">
-                            <img src="./images/group-section/1.png" alt="" />
+                            <img src="../img/group-section/1.png" alt="" />
                         </div>
                         <div class="level-and-status">
                             <div class="level-status">
@@ -4427,7 +4476,7 @@ $soonest = $matched[0] ?? null;
                 <div class="card">
                     <div class="card-top">
                         <div class="tag">
-                            <img src="./images/group-section/2.png" alt="" />
+                            <img src="../img/group-section/2.png" alt="" />
                         </div>
                         <div class="level-and-status">
                             <div class="level-status">
@@ -4484,13 +4533,13 @@ $soonest = $matched[0] ?? null;
                         </div>
                     </div>
 
-                    <button class="btn">Change to this group</button>
+                    <button class="btn btn subscribe subscribe-modal-open">Change to this group</button>
                 </div>
 
                 <div class="card">
                     <div class="card-top">
                         <div class="tag">
-                            <img src="./images/group-section/3.png" alt="" />
+                            <img src="../img/group-section/3.png" alt="" />
                         </div>
                         <div class="level-and-status">
                             <div class="level-status">
@@ -4547,7 +4596,7 @@ $soonest = $matched[0] ?? null;
                         </div>
                     </div>
 
-                    <button class="btn">Subscribe</button>
+                    <button class="btn subscribe subscribe-modal-open">Subscribe</button>
                 </div>
 
                 <div class="anotherOptions">
@@ -4564,6 +4613,8 @@ $soonest = $matched[0] ?? null;
             </div>
         </section>
     </div>
+
+
 
     <!-- Share Tutor -->
     <!-- =========== -->
@@ -5403,6 +5454,8 @@ $soonest = $matched[0] ?? null;
         </div>
     </div>
 
+
+
     <!-- User Options -->
     <!-- ============ -->
     <div class="options userOptions">
@@ -5456,6 +5509,220 @@ $soonest = $matched[0] ?? null;
             <p>Cancel Subscription</p>
         </div>
     </div>
+
+    <div class="options manage_userOptions subscription_dropdown_options" style="top: 1300px; left: 926.095px;">
+        <a href="" class="option">
+            <img src="../img/cour/icons/revision.png" alt="">
+            <p>Change to a new group</p>
+        </a>
+        <a href="" class="option">
+            <img src="../img/cour/icons/dollar.png" alt="" />
+            <p>Change your plan</p>
+        </a>
+        <a href="" class="option">
+            <img src="../img/cour/icons/revision.png" alt="">
+            <p>Pause subscription</p>
+        </a>
+
+
+        <div href="" class="option">
+            <img src="../img/cour/icons/cancel.png" alt="">
+            <p>Cancel Group Subscription</p>
+        </div>
+    </div>
+
+    <!-- Subscribe Modal -->
+    <div class="subscribe-modal-backdrop is-open-s" data-subscribe-modal>
+        <div class="subscribe-modal-main">
+            <button class="subscribe-modal__close" data-subscribe-close aria-label="Close">
+                &times;
+            </button>
+
+            <div class="subscribe-modal__grid">
+                <!-- LEFT: Plans list -->
+                <aside class="plans">
+                    <div class="plans__title">
+                        <img src="../img/subs/Progress-steps.png" alt="" />
+                        <div>
+                            <h2>Time to help you succeed at work!</h2>
+                            <p>Consistency is key to progress, so we recommend a weekly schedule. Each 50-min lesson
+                                costs <strong>$9.00</strong>.</p>
+                        </div>
+                    </div>
+
+                    <button class="plan-card" data-plan="1" data-price="36">
+                        <span>1 Month</span><span class="price">$36.00 <small>per Month</small></span>
+                    </button>
+
+                    <button class="plan-card" data-plan="4" data-price="72">
+                        <span>4 Months</span><span class="price">$72.00 <small>per 4 Month</small></span>
+                    </button>
+
+                    <button class="plan-card" data-plan="6" data-price="108">
+                        <span>6 Months</span><span class="price">$108.00 <small>per 6 Month</small></span>
+                    </button>
+
+                    <button class="plan-card" data-plan="9" data-price="144">
+                        <span>9 Months</span><span class="price">$144.00 <small>per 9 Month</small></span>
+                    </button>
+
+                    <button class="plan-card" data-plan="12" data-price="180">
+                        <span>12 Months</span>
+                        <span class="tag">Popular</span>
+                        <span class="price">$180.00 <small>per 12 Month</small></span>
+                    </button>
+
+                    <div class="plan-card ">
+                        <div class="plan-custom__row custom-plan">
+                            <strong>Custom plan</strong>
+                            <p>Choose the number of months if that suits you better.</p>
+
+                        </div>
+                        <div>
+                            <img src="../img/subs/calendar.png" alt="" />
+                        </div>
+
+                    </div>
+
+                    <div class="plans__cta">
+                        <button class="btn-primary" data-continue>Continue to checkout</button>
+                    </div>
+                </aside>
+
+                <!-- RIGHT: Summary -->
+                <section class="summary">
+
+
+                    <div class="summary__box">
+                        <div class="summary__head">
+                            <h3>Your learning plan</h3>
+                            <a href="#" class="link-muted">See how our plans work</a>
+                        </div>
+                        <div class="summary__select">
+                            <label for="monthsSelect">How many Months would you like to Select?</label>
+                            <div class="select">
+                                <select id="monthsSelect" data-months-select>
+                                    <option value="1" data-price="36">1</option>
+                                    <option value="4" data-price="72">4</option>
+                                    <option value="6" data-price="108">6</option>
+                                    <option value="9" data-price="144">9</option>
+                                    <option value="12" data-price="180" selected>12</option>
+                                </select>
+                                <span class="select__chev">▾</span>
+                            </div>
+                        </div>
+
+                        <div class="summary__price">
+                            <div class="left">
+                                <div class="big" data-summary-months>12</div>
+                                <div class="muted">Months Plan</div>
+                            </div>
+                            <div class="right">
+                                <div class="big" data-summary-price>$180.00</div>
+                                <div class="badge" data-summary-badge>save 20%</div>
+                                <div class="muted" data-summary-charge>charged per 12 Month</div>
+                            </div>
+                        </div>
+
+                        <ul class="summary__bullets">
+                            <li>
+                                <div class="ic ic-calendar">
+                                    <img src="../img/subs/calendar-1.png" alt="" />
+                                </div> your <strong>lessons will be scheduled for 6
+                                    Months</strong>
+                            </li>
+                            <li>
+                                <div class="ic ic-cap">
+
+                                    <img src="../img/subs/calendar-1.png" alt="" />
+                                </div> Change your tutor <strong>for free at any time.</strong>
+                            </li>
+                            <li>
+                                <div class="ic ic-cancel">
+                                    <img src="../img/subs/calendar-1.png" alt="" />
+                                </div> Cancel your plan <strong>at any time.</strong>
+                            </li>
+                            <li>
+                                <div class="ic ic-clock">
+                                    <img src="../img/subs/calendar-1.png" alt="" />
+                                </div> Change the duration of your classes <strong>at any
+                                    time.</strong>
+                            </li>
+                        </ul>
+
+                        <div class="summary__teacher">
+                            <div class="badge">FL1</div>
+                            <div>
+                                <div class="teacher__row"><strong>English Group (NewYork)</strong> <span class="star">★
+                                        5</span> <a href="#" class="link-muted">(3 reviews)</a></div>
+                                <div class="slots">
+                                    <span>Mon - 5: 40 am</span>
+                                    <span>Tue - 5: 40 am</span>
+                                    <span>Fri - 5: 40 am</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="subscribe-modal-backdrop" data-subscribe-modal>
+
+        <div class="subscribe-modal-main">
+            <button class="subscribe-modal__close" data-subscribe-close aria-label="Close">
+                &times;
+            </button>
+            <aside class="plans">
+                <div class="plans__title">
+                    <img src="../img/subs/Progress-steps.png" alt="" />
+                    <div>
+                        <h2>Time to help you succeed at work!</h2>
+                        <p>Consistency is key to progress, so we recommend a weekly schedule. Each 50-min lesson
+                            costs <strong>$9.00</strong>.</p>
+                    </div>
+                </div>
+
+                <button class="plan-card" data-plan="1" data-price="36">
+                    <span>1 Month</span><span class="price">$36.00 <small>per Month</small></span>
+                </button>
+
+                <button class="plan-card" data-plan="4" data-price="72">
+                    <span>4 Months</span><span class="price">$72.00 <small>per 4 Month</small></span>
+                </button>
+
+                <button class="plan-card" data-plan="6" data-price="108">
+                    <span>6 Months</span><span class="price">$108.00 <small>per 6 Month</small></span>
+                </button>
+
+                <button class="plan-card" data-plan="9" data-price="144">
+                    <span>9 Months</span><span class="price">$144.00 <small>per 9 Month</small></span>
+                </button>
+
+                <button class="plan-card " data-plan="12" data-price="180">
+                    <span>12 Months</span>
+                    <span class="tag">Popular</span>
+                    <span class="price">$180.00 <small>per 12 Month</small></span>
+                </button>
+
+                <div class="plan-card custom-plan">
+                    <div class="plan-custom__row">
+                        <strong>Custom plan</strong> <small>per month</small>
+                    </div>
+                    <p>Choose the number of months if that suits you better.</p>
+
+
+                </div>
+
+                <div class="plans__cta">
+                    <button class="btn-primary" data-continue>Continue to checkout</button>
+                </div>
+            </aside>
+        </div>
+    </div>
+
 
     <!-- extra lessons -->
     <!-- ============= -->
