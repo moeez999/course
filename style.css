@@ -7685,7 +7685,10 @@ section.sub_level.active {
   transform: translate(-50%, -50%);
   overflow: auto;
 }
-
+.modal-basic-style::-webkit-scrollbar {
+  width: 0;
+  display: none !important;
+}
 .modal-basic-style p {
   color: #121117;
 }
@@ -7848,4 +7851,110 @@ section.sub_level.active {
     align-items: center;
     cursor: pointer;
   }
+}
+.publish-your-review-for-florida-1-modal {
+  width: 752px;
+  padding: 64px 48px 48px;
+}
+.modal-basic-style {
+  &.active {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+.selectable-stars {
+  display: flex;
+  gap: 13.5px;
+  justify-content: center;
+  align-items: center;
+}
+textarea {
+  width: 100%;
+  height: 144px;
+  border: 2px solid rgba(220, 220, 229, 1);
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  background: rgba(255, 255, 255, 1);
+  padding: 16px;
+  resize: none;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  color: rgba(0, 0, 0, 1);
+  margin-top: 9.5px;
+}
+/* selectable stars */
+.selectable-stars {
+  display: flex;
+  gap: 13.5px;
+  justify-content: center;
+  align-items: center;
+
+  .outline-and-fill-star {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+
+    svg {
+      width: 32.24px;
+    }
+
+    .fill-star {
+      position: absolute;
+      top: 2px;
+      opacity: 0;
+      z-index: 1;
+      transition: 0.3s opacity;
+      -webkit-transition: 0.3s opacity;
+      -moz-transition: 0.3s opacity;
+      -ms-transition: 0.3s opacity;
+      -o-transition: 0.3s opacity;
+    }
+
+    &.active .fill-star {
+      opacity: 1;
+    }
+  }
+}
+.success-modal-for-providing-feedback-modal {
+  min-height: 390px;
+  padding: 98px 27px 48.43px;
+  gap: 34px;
+  align-items: center;
+}
+.success-modal-for-providing-feedback-modal {
+  button.red-button {
+    max-width: 358px;
+  }
+}
+button.backdrop-level-1-close,
+button.backdrop-level-2-close {
+  position: unset;
+}
+.group-classes-options-modal.active {
+  display: flex !important;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: unset;
+}
+
+.give-feedback-to-teacher-modal.active,
+.prefer-to-share-feedback-modal.active,
+.public-feedback-to-teacher-modal.active,
+.anonymous-feedback-to-teacher-modal.active,
+.anonymous-teacher-feedback-last-modal.active {
+  display: flex;
+  visibility: visible;
+  opacity: 1;
+  pointer-events: unset;
+}
+.rate-your-teacher-4-questions-modal {
+  min-height: 658px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 56px 26px 32.71px;
 }
